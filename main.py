@@ -4,8 +4,23 @@
 *********************************************************************
 '''
 LOAD_PLUGINS = True # Change that to true if you want to load the plugins
-
+import subprocess
 import sys
+
+def install_libraries():
+    """
+    Install required libraries if not already installed.
+    """
+    required_libraries = ['requests', 'eel', 'psutil', 'pycryptodome', 'colorama', 'xdis', 'pypresence', 'pefile']
+    for lib in required_libraries:
+        try:
+            __import__(lib)
+        except ImportError:
+            print(f"Installing {lib}...")
+            subprocess.run([sys.executable, '-m', 'pip', 'install', lib])
+
+
+install_libraries()
 sys.dont_write_bytecode = True
 if len(sys.argv) > 1 and sys.argv[1] == "--test":
      from util.test import main
